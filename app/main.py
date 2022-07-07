@@ -18,8 +18,9 @@ def main():
     """
     Generates 100 markdown files under the notes directory.
 
-    Fills in boilerplate details with the day, date, and example number.
+    Fills in boilerplate details with the filename, day, date, and example number.
     """
+    fn = 'log'
     day = 0
     date = arrow.now().format('MMMM DD, YYYY')
     example = 0
@@ -30,7 +31,7 @@ def main():
         example += 1
 
         # file format
-        md_file = Path(f'../notes/log_{num}.md')
+        md_file = Path(f'../notes/{fn}_{num}.md')
 
         # create file if it doesn't exist
         md_file.touch(mode=0o700, exist_ok=True)
@@ -50,7 +51,7 @@ def main():
 
         # write to file
         md_file.write_text(md_fmt, encoding='utf-8', errors=None)
-        print(f'log_{num}.md created')
+        print(f'{fn}_{num}.md created')
 
 
 if __name__ == '__main__':
