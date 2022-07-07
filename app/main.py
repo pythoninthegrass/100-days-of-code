@@ -13,10 +13,6 @@ home = Path.home()
 cwd = Path.cwd()
 env = Path('.env')
 
-day = 0
-date = arrow.now().format('MMMM DD, YYYY')
-example = 0
-
 
 def main():
     """
@@ -24,6 +20,10 @@ def main():
 
     Fills in boilerplate details with the day, date, and example number.
     """
+    day = 0
+    date = arrow.now().format('MMMM DD, YYYY')
+    example = 0
+
     for num in range(1, 101):
         day += 1
         date = arrow.now().shift(days=day).format('MMMM DD, YYYY')
