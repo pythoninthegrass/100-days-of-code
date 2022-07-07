@@ -28,8 +28,8 @@ We hear you, Kimberly. Until those tools exist and/or are found, this'll have to
 * Work on something [programming-related](http://100daysofcode.com/)
 * Open Notable
 * Change Data Directory > Select `~/git/100-days-of-code/notes`
-* Select the edit icon (✏️) on the menu bar  
 ![Select the edit icon](img/01_select_folder.png)
+* Select the edit icon (✏️) on the menu bar  
 * Read up on [Github Flavored Markdown](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
 * Jot down some notes from your day  
 ![Write something](img/02_markdown.png)  
