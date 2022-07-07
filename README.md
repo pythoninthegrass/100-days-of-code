@@ -45,11 +45,43 @@ We hear you, Kimberly. Until those tools exist and/or are found, this'll have to
 * Rinse/repeat x100. (At least!)
 
 ## BONUS
-* Regenerate the 100 template markdown files
+* Regenerate the 100 template markdown files ([Ubuntu Linux](https://ubuntuhandbook.org/index.php/2021/01/install-python-3-10-alpha-ubuntu-20-04-ubuntu-18-04/) example)
+  * See: [macOS](https://docs.python.org/3/using/mac.html) and [Windows](https://docs.python.org/3/using/windows.html) instructions for installation
     ```bash
-    rm notes/*.md
-    cd app
-    python main.py
+    # update repos, install python repo source, update repos, install python3.10.*
+    sudo apt update \
+    && sudo apt install software-properties-common -y \
+    && sudo add-apt-repository ppa:deadsnakes/ppa -y \
+    && sudo apt update \
+    && sudo apt install python3.10 -y
+
+    # clone repo
+    mkdir -p git
+    cd git/
+    git clone https://github.com/pythoninthegrass/100-days-of-code.git
+    cd 100-days-of-code/
+
+    # install python dependencies
+    mkdir -p ~/.local
+    python3 -m pip install -r requirements.txt
+
+    # temporarily add `~/.local` python binaries to shell path
+    export PATH="$HOME/.local/bin:$PATH"
+
+    # check existing markdown notes
+    ls -l notes/
+
+    # remove all markdown notes
+    rm -rf notes/*.md
+
+    # regenerate notes
+    cd app/
+    python3 main.py
+    cd -
+
+    # check fresh copies
+    ls -l notes/
+    cat notes/log_1.md
     ```
 
 ## TODO
