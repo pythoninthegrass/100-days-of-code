@@ -5,7 +5,7 @@ import arrow
 # import numpy as np
 # import os
 # import markdown
-import pandas as pd
+# import pandas as pd
 # import re
 import textwrap
 # from icecream import ic
