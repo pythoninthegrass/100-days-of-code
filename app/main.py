@@ -2,19 +2,21 @@
 
 import arrow
 import textwrap
-# from icecream import ic
+from icecream import ic
 from pathlib import Path
 
 # verbose icecream
-# ic.configureOutput(includeContext=True)
+ic.configureOutput(includeContext=True)
 
 # env
 home = Path.home()
 cwd = Path.cwd()
 env = Path('.env')
+notes = Path('../notes').mkdir(exist_ok=True)
 
 
-def main():
+# TODO: settings.json args; argparse
+def gen_notes(start_date):
     """
     Generates 100 markdown files under the notes directory.
 
@@ -22,12 +24,13 @@ def main():
     """
     fn = 'log'
     day = 0
-    date = arrow.now().format('MMMM DD, YYYY')
+
     example = 0
+    start = arrow.get(start_date).shift(days=-1)
 
     for num in range(1, 101):
         day += 1
-        date = arrow.now().shift(days=day).format('MMMM DD, YYYY')
+        date = start.shift(days=day).format('MMMM DD, YYYY')
         example += 1
 
         # file format
@@ -36,7 +39,7 @@ def main():
         # create file if it doesn't exist
         md_file.touch(mode=0o700, exist_ok=True)
 
-        md_fmt = textwrap.dedent(f"""\
+        md_fmt = textwrap.dedent(f"""
         # 100 Days Of Code - Log
 
         ### Day {day}: {date} (Example {example})
@@ -55,4 +58,12 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    # ask for date, if left blank, use current date
+    try:
+        start_date = input('Enter date (YYYY/MM/DD): ')
+        if not start_date:
+            start_date = arrow.now().format('YYYY/MM/DD')
+        gen_notes(start_date.format('YYYY/MM/DD'))
+    except KeyboardInterrupt as k:
+        print(f"\nError {k}: User canceled. Exiting...")
+        exit()
