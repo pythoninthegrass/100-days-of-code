@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
 
+import argparse
 import arrow
+import sys
 import textwrap
 from icecream import ic
 from pathlib import Path
+from time import sleep
+from tqdm.auto import trange
 
 # verbose icecream
 ic.configureOutput(includeContext=True)
@@ -13,9 +17,14 @@ home = Path.home()
 cwd = Path.cwd()
 env = Path('.env')
 notes = Path('../notes').mkdir(exist_ok=True)
+today = arrow.now().format('YYYY/MM/DD')
+
+# accept args
+parser = argparse.ArgumentParser(description='Generate 100 markdown files under the notes directory.')
+parser.add_argument('-s', '--start', help='start date', default=f'{today}')
+args = parser.parse_args()
 
 
-# TODO: settings.json args; argparse
 def gen_notes(start_date):
     """
     Generates 100 markdown files under the notes directory.
@@ -28,7 +37,9 @@ def gen_notes(start_date):
     example = 0
     start = arrow.get(start_date).shift(days=-1)
 
-    for num in range(1, 101):
+    total = range(1, 101)
+
+    for num in total:
         day += 1
         date = start.shift(days=day).format('MMMM DD, YYYY')
         example += 1
@@ -54,16 +65,37 @@ def gen_notes(start_date):
 
         # write to file
         md_file.write_text(md_fmt, encoding='utf-8', errors=None)
-        print(f'{fn}_{num}.md created')
+
+        # progress bar
+        bar = trange(100, desc=f'{fn}_{num}', position=0, leave=True)
+        for i in bar:
+            bar.update()
 
 
 if __name__ == '__main__':
-    # ask for date, if left blank, use current date
+    # check if args were passed or default value
+    if len(sys.argv) > 1:
+        print(f'Generating notes from {args.start}')
+    else:
+        print('Generating notes from today')
+
+    # validate input then generate notes
     try:
-        start_date = input('Enter date (YYYY/MM/DD): ')
-        if not start_date:
-            start_date = arrow.now().format('YYYY/MM/DD')
-        gen_notes(start_date.format('YYYY/MM/DD'))
+        prompt = input('Continue? (y/n): ').lower()
+        match prompt:
+            case 'y' | 'yes':
+                start_date = args.start
+                if not start_date:
+                    print('No date provided, using current date')
+                else:
+                    print(f'Using date: {start_date}')
+                gen_notes(start_date)
+            case 'n' | 'no':
+                print('Exiting...')
+                exit()
+            case _:
+                print('Invalid input, exiting...')
+                exit()
     except KeyboardInterrupt as k:
         print(f"\nError {k}: User canceled. Exiting...")
         exit()
