@@ -56,8 +56,8 @@ We hear you, Kimberly. Until those tools exist and/or are found, this'll have to
     && sudo apt install python3.10 -y
 
     # clone repo
-    mkdir -p git
-    cd git/
+    mkdir -p ~/git
+    cd ~/git
     git clone https://github.com/pythoninthegrass/100-days-of-code.git
     cd 100-days-of-code/
 
@@ -71,32 +71,15 @@ We hear you, Kimberly. Until those tools exist and/or are found, this'll have to
     # check existing markdown notes
     ls -l notes/
 
-    # remove all markdown notes
-    rm -rf notes/*.md
-
-    # regenerate notes
+    # (re)generate notes - overwrites existing ./notes/* files
     cd app/
-    python3 main.py
-    cd -
+    python3 main.py                         # no args defaults to today
+    python3 main.py --start 1970/01/01      # args: `-s` or `--start` (YYYY/MM/DD) 
 
     # check fresh copies
     ls -l notes/
     cat notes/log_1.md
     ```
-
-## TODO
-**MVP**
-* ~~100 copies for each day with boilerplate~~
-* `README.md`
-  * Use template
-  * Edit in desktop app (~~Notable~~, Typora, VSCode, etc)
-  * ~~Inspiration/links for getting started~~
-
-**Stretch Goals**  
-* ~~Automate with a programming language and document as day one (of thousands lmao)~~
-  * Don't use python for ^^ 🐍
-  * And/or use ~~python~~ and go
-
 
 ## Resources
 ### 100 Days of Code
